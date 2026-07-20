@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rag-kit"
+version = "0.1.0"
+description = "A modular, swappable-backend RAG (Retrieval-Augmented Generation) pipeline you can point at any document set."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "RAG-Kit contributors" }]
+keywords = ["rag", "retrieval-augmented-generation", "nlp", "embeddings", "faiss", "chroma"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+# Core deps are deliberately minimal. Everything backend-specific
+# (sentence-transformers, faiss, chromadb, openai, cross-encoders, bm25)
+# is an optional extra so a user only installs what they actually use.
+dependencies = [
+    "numpy>=1.23",
+    "pypdf>=3.0",
+]
+
+[project.optional-dependencies]
+sentence-transformers = ["sentence-transformers>=2.2"]
+openai = ["requests>=2.28"]
+faiss = ["faiss-cpu>=1.7"]
+chroma = ["chromadb>=0.4"]
+bm25 = ["rank-bm25>=0.2"]
+rerank = ["sentence-transformers>=2.2"]  # cross-encoder lives in the same package
+dev = ["pytest>=7.4", "pytest-cov>=4.1"]
+all = [
+    "sentence-transformers>=2.2",
+    "requests>=2.28",
+    "faiss-cpu>=1.7",
+    "chromadb>=0.4",
+    "rank-bm25>=0.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/kundanbedmutha/RAG-KIT"
+Issues = "https://github.com/kundanbedmutha/RAG-KIT/issues"
+
+[tool.setuptools.packages.find]
+include = ["rag_kit*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
